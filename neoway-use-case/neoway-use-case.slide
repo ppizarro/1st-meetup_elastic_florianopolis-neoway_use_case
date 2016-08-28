@@ -1,0 +1,118 @@
+Elasticsearch - Neoway use case
+Meetup Elastic Florianópolis
+27 Aug 2016
+Tags: neoway, elastic, elasticsearch, nosql
+
+Luciano Faustino & Paulo Pizarro
+BlackOps & Core Team Leader at Neoway
+luciano.faustino@neoway.com.br
+paulo.pizarro@neoway.com.br
+https://github.com/NeowayLabs
+@NeowayLabs
+
+* Elasticsearch @ Neoway
+
+* Apps Using Elasticsearch
+
+.image images/simm-home.png
+
+* Search App - Resume
+
+.image images/search-resume.png
+
+* Search App - Profile Neoway
+
+.image images/neoway-profile.png
+
+* Search App - Maps Neoway
+
+.image images/maps.png
+
+* Search App - Pathfinder Neoway
+
+.image images/pathfinder.png
+
+* Dados - Indices no Elasticsearch
+
+- *Empresas*: 33 Milhões
+- *Pessoas*: 193 Milhões
+- *Processos* *Judiciais*: 104 Milhões
+- *Companies* *USA*: 193 Milhões
+- *Obras* *Imobiliário* *e* *Industria*: 31 Mil
+- *Obras* *Infraestrutura*:  12 Mil
+
+* Exemplo Dados de Empresas
+
+- +1000 campos de empresas pesquisáveis 
+
+.code neoway.json
+
+* Our Deploy @ AWS
+
+* CoreOS & Docker
+
+.image images/coreos.png
+
+*Version:* 1.7.5 and 2.3.5
+
+*Plugins:* cloud-aws, elastichq
+
+*Network:* VPC with Private subnet and Placement Group
+
+*Security:* NACL and Security Group
+
+*Master* *nodes:* 3 x c4.large -- `3.75G` `Mem,` `2` `vCPUs`
+
+*Data* *nodes:* 7 x i2.2xlarge -- `61G` `Mem,` `8` `vCPUs,` `1.600TB` `disk` `(2` `*` `800GB` `ssd)`
+
+
+* Config Tips
+
+* Nodes Discovery - AWS Plugin
+
+.code config-parte1.json
+
+* Field Data Cache / SSD / Others
+
+.code config-parte2.json
+
+* Query, Aggreagations and Sort
+
+- Índice Reverso
+
+nome.luciano: 2, 5, 8
+nome.paulo: 1, 5, 6, 10
+
+- Índice Normal
+
+nome: 2, 5, 8, 1, 5, 6, 10
+
+- Search:
+ - usa o índice reverso para a busca
+ - índice reverso criado em disco no momento da indexação
+
+- Aggreagations and Sort
+ - usa o índice normal
+ - Se doc_values: false índice normal será criado on flight em memória
+ - Se doc_values: true índice normal será criado na indexação em disco
+ - Sort: usar type not_analysed
+
+* Mapping and Field Data
+
+* Tips - doc_values: true, dynamic: strict, _all: false
+
+.code mapping.json
+
+* Monitoring
+
+* Prometheus
+
+.link https://prometheus.io
+
+.image images/prometheus.png
+
+* Grafana
+
+.link https://grafana.net
+
+.image images/grafana.png
